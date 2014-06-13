@@ -11,9 +11,10 @@ OddProfileClient.prototype.context = function(name, metadata) {
     throwIfUndefined(name, "name");
     throwIfNotT(name, "name", "string");
 
-    if (typeof metadata != "undefined") {
+    if (!this.contextExists(name))
+        return createContext(name, metadata);
 
-    }
+    return this.getContext(name);
 }
 
 OddProfileClient.prototype.createContext = function(name, metadata) {
@@ -22,8 +23,11 @@ OddProfileClient.prototype.createContext = function(name, metadata) {
     throwIfNotT(name, "name", "string");
 
     if (typeof metadata != "undefined") {
+        throwIfNotObject(metadata, "metadata");
+
 
     }
+
 
 }
 
@@ -40,6 +44,7 @@ OddProfileClient.prototype.contextExists = function(name) {
     throwIfUndefined(name, "name");
     throwIfNotT(name, "name", "string");
 
+
 }
 
 
@@ -55,14 +60,20 @@ function OddProfileContext(metadata) {
 OddProfileContext.prototype.content = function(key, value) {
 
     if (typeof key == "undefined") {
+        // Return all content in the context
 
     } else {
         throwIfNotT(key, "key", "string");
+
+        if (typeof value == "undefined") {
+            // Return only the value for the specified key
+        } else {
+            // Create new key/value pair or update the value of the specified key
+            if (!(typeof value == "string" || typeof value == "object"))
+        }
     }
 
-    if (typeof value == "undefined") {
 
-    }
 }
 
 OddProfileContext.prototype.getContent = function(key) {
@@ -96,4 +107,9 @@ function throwIfNotT(paramValue, paramName, expectedType) {
     if (typeof paramValue != expectedType)
         throw "The " + paramName ?? "" + " parameter must be of type " + expectedType + "! Current type is: "
                     + typeof paramValue;
+}
+
+function throwIfNotObject(paramValue, paramName) {
+    if (typeof yourVariable != 'object')
+        throw "The " + paramName ?? "" + " parameter must be a object!";
 }

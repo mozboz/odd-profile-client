@@ -7,27 +7,18 @@
 
         $(document).ready(function() {
 
-
             $('#createbutton').on('click', function() {
                 var path = $('#path').val();
                 if (!path) {
                     alert ('Path must be entered');
                 } else {
-                    var dataString = 'urlPath=' + path + '&url=url&owner=owner&type=type&name=name';
-                    $.ajax({
-                        type: "POST",
-                        url: "index.php",
-                        data: dataString,
-                        beforeSend: setHeader
+                    client = new OddProfileClient("https://github.com/mozboz/odd-profile-client");
 
-                    }).done(function(data, textStatus, jqXHR) {
-                                alert( "success: " + data + " | " + jqXHR.status);
-                            })
-                            .fail(function(jqXHR, textStatus, error) {
-                                alert( "error"  + jqXHR.status + " " + textStatus + " " + error);
-                            });
-
-
+                    client.contextExists("foo").then(function(response) {
+                        alert('success');
+                    }, function(error) {
+                        alert('fail')
+                    });
                 }
             });
 

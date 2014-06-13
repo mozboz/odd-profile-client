@@ -1,4 +1,6 @@
 odd-profile-client
 ==================
 
-Client for odd-profile
+See the API definition at https://github.com/mozboz/odd-profile
+
+Initially javascript client only.

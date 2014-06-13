@@ -70,6 +70,7 @@ OddProfileContext.prototype.content = function(key, value) {
         } else {
             // Create new key/value pair or update the value of the specified key
             if (!(typeof value == "string" || typeof value == "object"))
+                throw "The value must be either a string or a object!";
         }
     }
 

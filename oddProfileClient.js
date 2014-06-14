@@ -13,6 +13,16 @@ OddProfileClient.prototype.context = function(name, metadata) {
     throwIfUndefined(name, "name");
     throwIfNotT(name, "name", "string");
 
+    this.contentExists(name).then(function (result) {
+        // create context
+        return new Promise(function (resolve, reject) {
+
+        })
+    }, function (error) {
+
+    }) ;
+
+
     if (!this.contextExists(name))
         return createContext(name, metadata);
 
@@ -38,14 +48,12 @@ OddProfileClient.prototype.getContext = function(name) {
     throwIfUndefined(name, "name");
     throwIfNotT(name, "name", "string");
 
-
 }
 
 OddProfileClient.prototype.contextExists = function(name) {
 
     throwIfUndefined(name, "name");
     throwIfNotT(name, "name", "string");
-
 
 }
 

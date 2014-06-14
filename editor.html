@@ -14,7 +14,7 @@
                 } else {
                     client = new OddProfileClient("https://github.com/mozboz/odd-profile-client");
 
-                    client.contextExists("foo").then(function(response) {
+                    client.contextExists(path).then(function(response) {
                         alert('success');
                     }, function(error) {
                         alert('fail')

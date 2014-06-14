@@ -1,13 +1,22 @@
 
 
-function OddProfileClient(appUri) {
+function OddProfileClient(appUri, profileUri) {
 
     throwIfUndefined(appUri, "appUri");
     throwIfNotT(appUri, "appUri", "string");
 
+    throwIfUndefined(profileUri, "profileUri");
+    throwIfNotT(profileUri, "profileUri", "string");
+
     this.appUri = appUri;
+    this.profileUri = profileUri;
+
+    if (this.profileUri[this.profileUri.length - 1] != "/") {
+        this.profileUri = this.profileUri + "/";
+    }
 }
 
+/*
 OddProfileClient.prototype.context = function(name, metadata) {
 
     throwIfUndefined(name, "name");
@@ -15,9 +24,8 @@ OddProfileClient.prototype.context = function(name, metadata) {
 
     if (!this.contextExists(name))
         return createContext(name, metadata);
-
-    return this.getContext(name);
 }
+*/
 
 OddProfileClient.prototype.createContext = function(name, metadata) {
 
@@ -27,10 +35,17 @@ OddProfileClient.prototype.createContext = function(name, metadata) {
     if (typeof metadata != "undefined") {
         throwIfNotObject(metadata, "metadata");
 
-
+        if (metadata.hasOwnProperty("name"))
+            throw "The 'name' property is not valid on a metadata object since 'name' is a reserved key."
+        if (metadata.hasOwnProperty("owner"))
+            throw "The 'owner' property is not valid on a metadata object since 'owner' is a reserved key."
+    } else {
+        metadata = {};
     }
 
+    metadata.owner = this.appUri;
 
+    return promiseXhrRequest(this.profileUri + name, "POST", metadata);
 }
 
 OddProfileClient.prototype.getContext = function(name) {
@@ -38,7 +53,7 @@ OddProfileClient.prototype.getContext = function(name) {
     throwIfUndefined(name, "name");
     throwIfNotT(name, "name", "string");
 
-
+    return promiseXhrRequest(this.profileUri + name, "GET");
 }
 
 OddProfileClient.prototype.contextExists = function(name) {
@@ -59,6 +74,7 @@ function OddProfileContext(metadata) {
     }
 }
 
+/*
 OddProfileContext.prototype.content = function(key, value) {
 
     if (typeof key == "undefined") {
@@ -78,6 +94,7 @@ OddProfileContext.prototype.content = function(key, value) {
 
 
 }
+*/
 
 OddProfileContext.prototype.getContent = function(key) {
 
